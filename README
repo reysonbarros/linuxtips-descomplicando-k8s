@@ -1,0 +1,83 @@
+Requirements:
+  - kind and kubectl already installed
+ 
+# kubectl installation
+curl -LO https://storage.googleapis.com/kubernetes-release/release/`curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt`/bin/linux/amd64/kubectl
+
+chmod +x ./kubectl
+
+sudo mv ./kubectl /usr/local/bin/kubectl
+
+kubectl version --client
+
+
+# kind installation
+curl -Lo ./kind https://kind.sigs.k8s.io/dl/v0.14.0/kind-linux-amd64
+
+chmod +x ./kind
+
+sudo mv ./kind /usr/local/bin/kind
+
+
+
+Day 1
+Goal: Create cluster and pod using kind and kubectl
+
+Step 1 - Create the cluster
+kind create cluster --config my-first-cluster.yaml
+
+Step 2 - List the clusters
+kind get clusters
+
+Step 3 - List the nodes
+kubectl get nodes
+
+Step 4 - Create the manifest file
+kubectl run nginx-giropops --image nginx --port 80 --dry-run=client -o yaml > my-first-pod.yaml
+Note: If the manisfest file already exists you can skip this step.
+
+Step 5 - Remove the following fields from manisfest
+creationTimestamp: null
+resources: {}
+status: {}
+
+Step 6 - Create the pod applying the manisfest file
+kubectl apply -f my-first-pod.yaml
+
+Step 7 - List the pods
+kubectl get pods
+Note: Check if the STATUS column is Running and READY column is 1/1
+
+Step 8 - Execute the command below to see details about the pod and check the containers
+kubectl describe pods nginx-giropops
+
+Step 9 - Access the container
+kubectl exec nginx-giropops -c nginx-giropops -it -- bash
+
+Step 10 - Inside the container type the following command:
+curl localhost
+
+Step 11 - In this point, you will be able to see the Welcome Message from Nginx
+<!DOCTYPE html>
+<html>
+<head>
+<title>Welcome to nginx!</title>
+<style>
+html { color-scheme: light dark; }
+body { width: 35em; margin: 0 auto;
+font-family: Tahoma, Verdana, Arial, sans-serif; }
+</style>
+</head>
+<body>
+<h1>Welcome to nginx!</h1>
+<p>If you see this page, the nginx web server is successfully installed and
+working. Further configuration is required.</p>
+
+<p>For online documentation and support please refer to
+<a href="http://nginx.org/">nginx.org</a>.<br/>
+Commercial support is available at
+<a href="http://nginx.com/">nginx.com</a>.</p>
+
+<p><em>Thank you for using nginx.</em></p>
+</body>
+</html>
