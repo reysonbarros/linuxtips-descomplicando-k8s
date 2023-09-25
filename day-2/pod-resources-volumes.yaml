@@ -1,0 +1,45 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: giropops-day2
+  namespace: giropops-ns
+spec:
+  containers:  
+  
+  - name: giropops1
+    image: nginx
+    resources:
+      limits:
+        cpu: "0.5"
+        memory: "128Mi"
+      requests:
+        cpu: "0.3"
+        memory: "64Mi"
+    volumeMounts:
+    - mountPath: /audit-nginx
+      name: giropops1-vol        
+  
+  - name: giropops2
+    image: ubuntu
+    args:
+    - sleep
+    - infinity
+    resources:
+      limits:
+        cpu: "0.5"
+        memory: "128Mi"
+      requests:
+        cpu: "0.2"
+        memory: "64Mi"
+    volumeMounts:
+    - mountPath: /audit-ubuntu
+      name: giropops2-vol        
+        
+  volumes:
+  - name: giropops1-vol
+    emptyDir:
+      sizeLimit: "256Mi"     
+  - name: giropops2-vol
+    emptyDir:
+      sizeLimit: "256Mi"
+        

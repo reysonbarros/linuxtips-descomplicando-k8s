@@ -81,3 +81,54 @@ Commercial support is available at
 <p><em>Thank you for using nginx.</em></p>
 </body>
 </html>
+
+Day 2
+Goal: create pod with two containers using resource limits/request and volumes
+
+Step 1 - Create the namespace using the manifest file
+kubectl apply -f namespace.yaml
+
+Step 2 - List the namespaces
+kubectl get namespaces
+
+Step 3 - Create the pod using the manifest file
+kubectl apply -f pod-resources-volumes.yaml
+
+Step 4 - List the pod by namespace
+kubectl get pods -n giropops-ns
+
+Step 5 - Check the details using command describe
+kubectl describe pods giropops-day2 -n giropops-ns
+
+Step 6 - Access the containers
+kubectl exec giropops-day2 -c giropops1 -it -n giropops-ns -- bash
+kubectl exec giropops-day2 -c giropops2 -it -n giropops-ns -- bash
+
+Step 7 - Foreach container create the log file inside folders audit-nginx and audit-ubuntu
+cd audit-nginx 
+echo "Test nginx log" > nginx.log
+
+cd audit-ubuntu 
+echo "Test ubuntu log" > ubuntu.log
+
+Step 8 - Check the node where the pod are running
+kubectl get pods giropops-day2 -n giropops-ns -o wide
+
+Step 9 - Check the pod uid
+kubectl get pods giropops-day2 -n giropops-ns -o jsonpath='{.metadata.uid}'
+
+Step 10 - List the nodes and access it using docker exec regarding Step 8
+docker container exec -it {containerUid} bash
+
+Step 11 - Access the following directory based on pod uid
+cd /var/lib/kubelet/pods/{podUid}/volumes/kubernetes.io~empty-dir
+
+Step 12 - Check if the volumes were created and the files are not empty
+giropops1-vol/nginx.log
+giropops2-vol/ubuntu.log
+
+Step 13 - Destroy the namespace and pod
+kubectl delete -f namespace.yaml
+
+Step 14 - Check if the volume were deleted from this directory
+/var/lib/kubelet/pods/{podUid}/volumes
