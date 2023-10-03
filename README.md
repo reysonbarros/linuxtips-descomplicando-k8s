@@ -53,7 +53,7 @@ kubectl get nodes
 
 # Day 1
 Goal: Create pod using kubectl
->[!NOTE] Perform the commands below inside day-1 folder
+> Perform the commands below inside day-1 folder
 
 
 ### Step 1 - Create the manifest file
@@ -126,7 +126,7 @@ kubectl delete -f pod.yaml or kubectl delete pods nginx-giropops
 
 # Day 2
 Goal: Create pod with two containers using namespace, resource limits/requests and volumes
->[!NOTE] Perform the commands below inside day-2 folder
+> Perform the commands below inside day-2 folder
 
 ### Step 1 - Create the namespace using the manifest file
 ```
@@ -201,7 +201,7 @@ kubectl delete -f namespace.yaml
 
 # Day 3
 Goal: Create deployments using Recreate and RollingUpdate strategies
->[!NOTE] Perform the commands below inside day-3 folder
+> Perform the commands below inside day-3 folder
 
 ## For recreate strategy
 ### Step 1 - Create the deployment with recreation strategy using the manifest file
