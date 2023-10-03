@@ -2,7 +2,7 @@ Requirements:
   - kind and kubectl already installed
   - cluster already created
  
-# kubectl installation
+<!-- kubectl installation -->
 curl -LO https://storage.googleapis.com/kubernetes-release/release/`curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt`/bin/linux/amd64/kubectl
 
 chmod +x ./kubectl
@@ -12,28 +12,28 @@ sudo mv ./kubectl /usr/local/bin/kubectl
 kubectl version --client
 
 
-# kind installation
+<!-- kind installation -->
 curl -Lo ./kind https://kind.sigs.k8s.io/dl/v0.14.0/kind-linux-amd64
 
 chmod +x ./kind
 
 sudo mv ./kind /usr/local/bin/kind
 
-# Create cluster
+### Create cluster
 kind create cluster --config cluster.yaml
 
-# List the clusters
+### List the clusters
 kind get clusters
 
-# List the nodes
+### List the nodes
 kubectl get nodes
 ---------------------------------------------------------------------
 
-Day 1
+## Day 1
 Goal: Create pod using kubectl
 Note: Perform the commands below inside day-1 folder
 
-Step 1 - Create the manifest file
+<!-- Step 1 - Create the manifest file -->
 kubectl run nginx-giropops --image nginx --port 80 --dry-run=client -o yaml > pod.yaml
 Note: If the manisfest file already exists you can skip this step.
 
