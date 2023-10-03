@@ -1,0 +1,28 @@
+apiVersion: apps/v1 # versao da API do K8S
+kind: Deployment # tipo do objeto
+metadata: # metadados do deployment
+  labels: # labels do deployment
+    app: nginx-deployment # valor do label app
+  name: nginx-deployment # nome do deployment
+spec: # especificacao dos pods
+  replicas: 10 # quantidade de pods
+  selector: # seletor para os pods gerenciados pelo deployment
+    matchLabels: # definicao dos labels para gerenciamento do pods no deployment
+      app: nginx-deployment # label de identificacao para gerenciamento do pod pelo deployment
+  strategy: # estrategia de atualizacao
+    type: Recreate # tipo da estrategia de atualizacao
+  template: # template para os pods
+    metadata: # metadados do template
+      labels: # labels do pod
+        app: nginx-deployment
+    spec: # especificacao dos container do pod
+      containers: # containers
+      - image: nginx:1.15.0 #imagem do container
+        name: nginx # nome do container
+        resources: # limitacoes de recursos dos container como cpu e memoria
+          limits: # limite maximo
+            cpu: "0.5" # maximo da capacidade de cpu usada pelo container
+            memory: 256Mi # maximo da capacidade de memoria usada pelo container
+          requests: # recursos reservados ao container em sua inicializacao
+            cpu: 0.25 # reservado 25% de cpu
+            memory: 128Mi # reservado 128 Mi de memoria
