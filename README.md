@@ -203,7 +203,7 @@ Goal: Create deployments using Recreate and RollingUpdate strategies
 Note: Perform the commands below inside day-3 folder
 
 ## For recreate strategy
-Step 1 - Create the deployment with recreation strategy using the manifest file
+### Step 1 - Create the deployment with recreation strategy using the manifest file
 ```
 kubectl apply -f deployment-recreate-strategy.yaml
 ```
