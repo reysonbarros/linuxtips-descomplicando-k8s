@@ -55,12 +55,11 @@ kubectl get nodes
 Goal: Create pod using kubectl
 > Perform the commands below inside day-1 folder
 
-
 ### Step 1 - Create the manifest file
 ```
 kubectl run nginx-giropops --image nginx --port 80 --dry-run=client -o yaml > pod.yaml
 ```
-Note: If the manisfest file already exists you can skip this step.
+> If the manisfest file already exists you can skip this step.
 
 ### Step 2 - Remove the following lines from manisfest
 creationTimestamp: null
@@ -76,7 +75,7 @@ kubectl apply -f pod.yaml
 ```
 kubectl get pods
 ```
-Note: Check if the STATUS column is Running and READY column is 1/1
+> Check if the STATUS column is Running and READY column is 1/1
 
 ### Step 5 - Execute the command below to see details about the pod and check the containers
 ```
