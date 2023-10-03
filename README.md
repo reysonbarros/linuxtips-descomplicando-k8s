@@ -211,9 +211,3 @@ kubectl delete -f deployment-rolling-update-strategy.yaml
 Step 20 - Check if the deployment and pods were removed from cluster
 kubectl get deployments -l app=nginx-deployment
 kubectl get pods -l app=nginx-deployment
-
-
-
-
-
-
