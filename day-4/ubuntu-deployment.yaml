@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: ubuntu-deployment
+  name: ubuntu-deployment
+spec:
+  replicas: 5
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: ubuntu-deployment
+  template:
+    metadata:
+      labels:
+        app: ubuntu-deployment
+    spec:
+      containers:
+      - name: ubuntu
+        image: ubuntu:20.04
+        args: # Comando que sera executado quando o container inicializar
+          - /bin/sh
+          - -c
+          - touch /tmp/isHealthy; sleep 30; rm -f /tmp/isHealthy; sleep 90
+        resources:
+          limits:
+            cpu: 0.6
+            memory: 256Mi     
+          requests:
+            cpu: 0.30
+            memory: 128Mi
+        livenessProbe:
+          exec: # Modo de verificação da probe
+            command: # Comando que sera executado pela probe
+              - cat
+              - /tmp/isHealthy
+          initialDelaySeconds: 5 # Tempo de espera apos o container inicializar para executar pela primeira vez o comando da probe
+          periodSeconds: 5 # Frequencia que o comando da probe sera executado no container
+

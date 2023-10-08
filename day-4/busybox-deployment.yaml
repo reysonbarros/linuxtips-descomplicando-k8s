@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+          app: busybox-deployment
+  name: busybox-deployment
+spec:
+  replicas: 3
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: busybox-deployment
+  template:
+    metadata:
+      labels:
+        app: busybox-deployment
+    spec:
+      containers:
+      - name: busybox
+        image: registry.k8s.io/busybox
+        args: # Command that will be executed when container starts
+          - /bin/sh
+          - -c
+          - touch /tmp/isHealthy; sleep 30; rm -f /tmp/isHealthy; sleep 600
+        resources:
+          limits:
+            cpu: 0.8
+            memory: 256Mi     
+          requests:
+            cpu: 0.5
+            memory: 128Mi
+        livenessProbe:
+          exec: # Verification mode probe
+            command: # Command that will be executed by probe
+              - cat
+              - /tmp/isHealthy
+          initialDelaySeconds: 5 # Wait time after container start to execute for the first time the probe's command
+          periodSeconds: 5 # Frequency that the probe's command will be executed
+        terminationGracePeriodSeconds: 10 # Period grace time before shut down the pod
