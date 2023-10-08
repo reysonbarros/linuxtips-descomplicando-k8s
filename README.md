@@ -322,19 +322,21 @@ kubectl apply -f ubuntu-deployment.yaml
 ```
 
 > busybox-deployment: For the first 30 seconds of the container's life, there is a /tmp/isHealthy file. So during the first 30 seconds, the command cat /tmp/isHealthy returns a success code. After 30 seconds, cat /tmp/isHealthy returns a failure code because the file was removed(rm -f). The container restarts after 55 seconds because the failureThreshold defaut=3 is reached(sleep[30s] + initialDelaySeconds[5s] + periodSeconds[2x 5s] + terminationGracePeriodSeconds[10s])
-
+```
 until sleep[30s] -> failureThreshold = 0 -> age=30
 until initialDelaySeconds[5s] -> failureThreshold=1 -> age=35
 until periodSeconds[2x 5s] -> failureThreshold=3 -> age=45 -> SEND SIGTERM
 until terminationGracePeriodSeconds[10s] -> failureThreshold=3 -> age=55 -> restart the pod
-
+```
 
 > ubuntu-deployment: For the first 30 seconds of the container's life, there is a /tmp/isHealthy file. So during the first 30 seconds, the command cat /tmp/isHealthy returns a success code. After 30 seconds, cat /tmp/isHealthy returns a failure code because the file was removed(rm -f). The container restarts after 75 seconds because the failureThreshold defaut=3 is reached(sleep[30s] + initialDelaySeconds[5s] + periodSeconds[2x 5s] + terminationGracePeriodSeconds[30s:default])
 
+```
 until sleep[30s] -> failureThreshold = 0 -> age=30
 until initialDelaySeconds[5s] -> failureThreshold=1 -> age=35
 until periodSeconds[2x 5s] -> failureThreshold=3 -> age=45 -> SEND SIGTERM
 until terminationGracePeriodSeconds[30s] -> failureThreshold=3 -> age=75 -> restart the pod
+```
 
 > nginx-deployment: the probe checks the pod's healthy using httpGet in the port 80
 
@@ -342,12 +344,12 @@ until terminationGracePeriodSeconds[30s] -> failureThreshold=3 -> age=75 -> rest
 ### Step 2 - List the pods
 ```
 kubectl get pods
-
+```
 
 ### Step 3 - Describe the pods
 ```
 kubectl describe pod [podName]
-
+```
 
 
 
