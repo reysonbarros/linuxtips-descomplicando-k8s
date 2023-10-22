@@ -353,13 +353,10 @@ kubectl describe pod [podName]
 
 # Day 6
 
-> Perform the commands below inside day-6 folder
-
 ### Scenario1: When the pod(consumer) starts so the volume(/mnt/data) is created inside the node
 ### Storage type: hostPath
 ### Single cluster
 ### Static provision
-
 
 > Perform the commands below inside day-6/scenario1 folder
 
@@ -415,7 +412,7 @@ kubectl exec -it {podName} -- bash
 Note: Get the pod's name from previous step
 ```
 
-### Run the following command:
+### Run the following command
 ```
 curl localhost
 ```
@@ -423,7 +420,7 @@ curl localhost
 
 ### Type ctlr + d for exit from pod
 
-### Execute the command below for delete cluster:
+### Execute the command below for delete cluster
 ```
 kind delete clusters cluster-nginx
 ```
@@ -463,7 +460,7 @@ ls -lha /mnt/nfs/
 sudo apt-get install nfs-kernel-server nfs-common -y
 ```
 
-### Edit the /etc/exports file and add the following line:
+### Edit the /etc/exports file and add the following line
 ```
 sudo vim /etc/exports
 ```
@@ -526,7 +523,7 @@ kubectl exec -it {podName} -- bash
 Note: Get the pod's name from previous step
 ```
 
-### Run the following command:
+### Run the following command
 ```
 curl localhost
 ```
@@ -535,7 +532,7 @@ curl localhost
 
 ### Type ctlr + d for exit from pod
 
-### Execute the command below for delete cluster:
+### Execute the command below for delete cluster
 ```
 kind delete clusters cluster-nginx
 ```
