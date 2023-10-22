@@ -1,0 +1,16 @@
+apiVersion: v1 # Versao da API do Kubernetes
+kind: PersistentVolume # Tipo de objeto que estamos criando, no caso um PersistentVolume
+metadata: # Informacoes sobre o objeto
+  name: pv-nginx
+  labels:
+    storage: pv-nginx # Label que sera utilizada para identificar o PV
+spec: # Especificacoes do nosso PV
+  capacity: # Capacidade do PV
+    storage: 1Gi # 1 Gigabyte de armazenamento
+  accessModes: # Modos de acesso ao PV
+  - ReadWriteOnce # Modo de acesso ReadWriteOnce, ou seja, o PV pode ser montado como leitura  escrita por um unico node
+  persistentVolumeReclaimPolicy: Retain # Politica de reinvidicacao do PV, ou seja, o PV nao sera excluido quando o PVC for excluido
+  nfs: # Tipo de armazenamento que vamos usar, no caso o NFS
+    server: 192.168.1.9 # Endereco do servidor NFS
+    path: "/mnt/nfs" # Compartilhamento do servidor NFS
+  storageClassName: storageclass-nginx # Nome da classe de armazenamento que sera usada

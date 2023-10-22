@@ -1,0 +1,64 @@
+apiVersion: apps/v1 # versao da API do Kubernetes
+kind: Deployment # tipo do objeto a ser criado
+metadata: 
+  name: deployment-nginx
+  labels:
+    app: deployment-nginx
+spec:
+  replicas: 3
+  strategy: 
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 2
+  selector:
+    matchLabels:
+      app: deployment-nginx
+  template:
+    metadata:
+      labels:
+        app: deployment-nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:latest
+        ports:
+        - containerPort: 80
+        resources:
+          requests:
+            cpu: 0.5      
+            memory: 128Mi
+          limits:   
+            cpu: 0.8
+            memory: 256Mi
+        volumeMounts:
+        - name: volume-nginx
+          mountPath: /usr/share/nginx/html
+        livenessProbe:           
+          httpGet:
+            path: /
+            port: 80
+          initialDelaySeconds: 10
+          periodSeconds: 10
+          timeoutSeconds: 5
+          successThreshold: 1
+          failureThreshold: 3
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 80
+          initialDelaySeconds: 10
+          periodSeconds: 10
+          timeoutSeconds: 5
+          successThreshold: 1
+          failureThreshold: 3
+      volumes:    
+      - name: volume-nginx
+        persistentVolumeClaim:
+          claimName: pvc-nginx
+
+
+
+
+
+

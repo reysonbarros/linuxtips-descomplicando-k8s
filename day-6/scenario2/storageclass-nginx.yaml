@@ -1,0 +1,8 @@
+apiVersion: storage.k8s.io/v1 # versao da API
+kind: StorageClass # tipo do objeto
+metadata: # metadados do objeto
+  name: storageclass-nginx # nome do objeto StorageClass
+provisioner: kubernetes.io/no-provisioner # entidade que vai provisionar o volume
+reclaimPolicy: Retain # politica de reinvidicacao do volume
+volumeBindingMode: WaitForFirstConsumer # modo de como o provisionamento do volume deve ocorrer
+

@@ -1,0 +1,14 @@
+apiVersion: v1 # versao do API do Kuberntes
+kind: PersistentVolumeClaim # Tipo de recurso, no caso, um PersistentVolumeClaim
+metadata: # metadados do recurso
+  name: pvc-nginx # nome do PVC
+spec: # especificacao do PVC
+  accessModes:
+  - ReadWriteOnce # modo de acesso RWO, ou seja, somente leitura e escrita por um node
+  resources: # recursos do do PVC
+    requests: # solicitacao de recursos
+      storage: 1Gi # tamanho do volume que sera solicitado pelo PVC
+  storageClassName: storageclass-nginx # nome da classe de armazenamento que sera usada
+  selector: # seletor de labels
+    matchLabels: # labels que serao usadas para selecionar o PV
+      storage: host-path # label que sera usada para selecionar o PV

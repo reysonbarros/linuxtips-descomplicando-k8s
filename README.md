@@ -351,7 +351,191 @@ kubectl get pods
 kubectl describe pod [podName]
 ```
 
+# Day 6
+
+> Perform the commands below inside day-6 folder
+
+### Scenario1: When the pod(consumer) starts so the volume(/mnt/data) is created inside the node
+### Storage type: hostPath
+### Single cluster
+### Static provision
 
 
+> Perform the commands below inside day-6/scenario1 folder
+
+### Create a single cluster
+```
+kind create cluster --name cluster-nginx
+```
+
+### Create the storageclass 
+```
+kubectl apply -f storageclass-nginx.yaml
+```
+
+### Create the persistent volume(PV)
+```
+kubectl apply -f pv-nginx.yaml
+```
+
+### Create the persistent volume claim(PVC)
+```
+kubectl apply -f pvc-nginx.yaml
+```
+
+### Create the nginx deployment
+```
+kubectl apply -f deployment-nginx.yaml
+
+```
+
+### Access the node where the cluster was created
+```
+docker exec -it cluster-nginx-control-plane bash
+```
+
+### Go to /mnt/data and create a index.html file
+```
+cd /mnt/data
+echo Hello nginx! > index.html
+```
+### Type ctrl + d for exit from node
+
+### Check if the rollout status from deployment was finished
+```
+kubectl rollout status deployment deployment-nginx
+```
+### Verify pod's columns READY(1/1) and STATUS(Running)
+```
+kubectl get pods
+```
+### Access the container from the pod
+```
+kubectl exec -it {podName} -- bash
+Note: Get the pod's name from previous step
+```
+
+### Run the following command:
+```
+curl localhost
+```
+### Check if the message Hello nginx! shows up
+
+### Type ctlr + d for exit from pod
+
+### Execute the command below for delete cluster:
+```
+kind delete clusters cluster-nginx
+```
+------------------
+
+### Scenario2: When the pod(consumer) starts so the volume(/mnt/nfs) is mapped inside the host machine
+### Storage type: nfs
+### Multi cluster
+### Static provision
 
 
+> Perform the commands below inside day-6/scenario2 folder
+
+### Network File System - NFS
+
+### Create the following directory on the host machine
+```
+sudo mkdir -p /mnt/nfs
+```
+
+### Apply the permissions for your user
+```
+sudo chown reyson_barros /mnt/nfs/
+```
+### Create the following file
+```
+echo Hello nginx NFS! > /mnt/nfs/index.html
+```
+
+### Check if permissions were applied
+```
+ls -lha /mnt/nfs/
+```
+
+### Install nfs server and client
+```
+sudo apt-get install nfs-kernel-server nfs-common -y
+```
+
+### Edit the /etc/exports file and add the following line:
+```
+sudo vim /etc/exports
+```
+
+### It allows all IPs access the shared folder /mnt/nfs. For production, use IP's range instead *
+```
+/mnt/nfs *(rw,sync,no_root_squash,no_subtree_check)
+```
+
+
+### Apply the changes for exports file 
+```
+sudo exportfs -ar
+```
+
+
+### Verify if directory /mnt/nfs was mounted
+```
+showmount -e
+```
+
+### Create a multi cluster
+```
+kind create cluster --config cluster-nginx.yaml
+```
+
+### Create the storageclass 
+```
+kubectl apply -f storageclass-nginx.yaml
+```
+
+### Create the persistent volume(PV)
+```
+kubectl apply -f pv-nginx.yaml
+```
+
+### Create the persistent volume claim(PVC)
+```
+kubectl apply -f pvc-nginx.yaml
+```
+
+### Create the nginx deployment
+```
+kubectl apply -f deployment-nginx.yaml
+```
+
+### Check if the rollout status from deployment was finished
+```
+kubectl rollout status deployment deployment-nginx
+```
+
+### Verify pod's columns READY(1/1) and STATUS(Running)
+```
+kubectl get pods
+```
+
+### Access the container from the pod
+```
+kubectl exec -it {podName} -- bash
+Note: Get the pod's name from previous step
+```
+
+### Run the following command:
+```
+curl localhost
+```
+
+### Check if the message Hello nginx NFS! shows up
+
+### Type ctlr + d for exit from pod
+
+### Execute the command below for delete cluster:
+```
+kind delete clusters cluster-nginx
+```

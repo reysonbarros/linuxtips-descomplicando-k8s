@@ -1,0 +1,15 @@
+apiVersion: v1 # versao da API do K8S
+kind: PersistentVolume # tipo de objeto que estamos criando, no caso um PersistentVolume
+metadata: # informacoes sobre o objeto
+  name: pv-nginx # nome do nosso pv
+  labels:
+    storage: host-path
+spec: # especificacoes do nosso PV
+  capacity: # Capacidade do PV
+    storage: 1Gi # 1 Gigabyte de armazenamento
+  accessModes: # Modos de acesso ao PV
+  - ReadWriteOnce # Modo de acesso onde o PV pode ser montado por leitura e escrita por um unico nó
+  persistentVolumeReclaimPolicy: Retain # Politica de reinvidicacao do PV, ou seja, o PV nao sera excluido quando o PVC for excluido
+  hostPath: # Tipo de armazenamento que vamos usar
+    path: "/mnt/data" # Caminho do hostPath, do nosso nó onde o PV sera criado
+  storageClassName: storageclass-nginx # Nome da classe de armazenamento que sera usada
