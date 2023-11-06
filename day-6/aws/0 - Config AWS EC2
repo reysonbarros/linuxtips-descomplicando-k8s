@@ -1,0 +1,34 @@
+# Create 3 EC2 instances using the following minimum requirements:
+#  2GB memory
+#  2 CPUs
+#  Linux distribution. Recomendation is Ubuntu 22.04
+# Note: Use the t2.medium instance type
+
+# Rename each instance created before using the AWS Console, for example:
+# k8s-1
+# k8s-2
+# k8s-3
+
+# Open these ports in the Security Groups:
+#  22(SSH): SSH Access
+#  6443(TCP): K8S API Server
+#  10250-10255(TCP): K8S kubelet agent
+#  30000-32767(TCP): K8S NodePort(serviços acessíveis fora do cluster)
+#  2379-2380(TCP): K8S etcd
+#  6783(TCP): Weave Net Control Port
+#  6783-6784(UDP): Weave Net Data Port
+ 
+
+# Access the instances using the ssh, for example:
+ssh -i "key-pair.pem" ubuntu@ec2-ip1.amazonaws.com
+
+# Rename the hostnames foreach instance using the Linux terminal, for example:
+sudo su -
+hostnamectl hostname k8s-01
+bash
+# Note: Reproduce these steps for other instances
+
+# Check CPU and memory
+getconf _NPROCESSORS_ONLN
+free -m
+

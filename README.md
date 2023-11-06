@@ -351,6 +351,11 @@ kubectl get pods
 kubectl describe pod [podName]
 ```
 
+# Day 5
+Goal: Configure cluster using kubeadm on AWS EC2 instances
+> Perform the commands inside day-5 folder using the cluster-k8s-aws-ec2.sh file
+
+
 # Day 6
 
 > Perform the commands below inside day-6 folder
