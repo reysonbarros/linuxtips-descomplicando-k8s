@@ -1,0 +1,37 @@
+apiVersion: apps/v1 # Versao da API do Kubernetes
+kind: StatefulSet # Tipo do recurso que estamos criando, no caso, um StatefulSet
+metadata: # Definicao de metadados para o recurso StatefulSet
+  name: nginx # nome para o objeto StatefulSet
+spec: # especificacao do objeto StatefulSet
+  serviceName: nginx # servico vinculado ao objeto Statefulset
+  replicas: 5 # quantidade de replicas do pod
+  selector: # Definicao do selector
+    matchLabels: # Criterio da label para identificar os pods
+      app: nginx # Nome da label a ser procurada nos pods
+  template: # Definicao dos pods
+    metadata: # Definicao de metadados para os pods
+      labels: # Definicao de labels para os pods
+        app: nginx # Nome da label dos pods
+    spec: # Especificacao dos containers
+      containers: # Definicao dos containers
+      - name: mongo # Nome do container
+        image: mongo:5.0.9 # Imagem do container
+        ports: # Definicao de portas 
+        - containerPort: 27017 # Porta escutada pelo container
+          name: mongodb # Descricao para porta
+      - name: nginx # Nome do container
+        image: nginx # Imagem do container
+        ports: # Definicao de portas 
+        - containerPort: 80 # Porta escutada pelo container
+          name: web # Descricao para porta
+        volumeMounts: # Definicao de pontos de volume
+        - name: www # Nome do volume
+          mountPath: /usr/share/nginx/html # Caminho de montagem do volume no container
+  volumeClaimTemplates: # Como estamos usando StatefulSet, precisamos criar um template de volume para cada Pod, então ao invés de criarmos um volume diretamente, criamos um template que sera usado para criar um volume para cada Pod
+  - metadata: # Definicao de metadados do PVC(Persistent Volume Claim)
+      name: www # Nome do volume, assim teremos o volume www-0, www-1 e www-2
+    spec: # Especificacao do PVC
+      accessModes: ["ReadWriteOnce"] # Modo de acesso ao PV será de leitura e escrita e sem acesso simultaneo, ou seja, um node por vez
+      resources: # Recursos para provisionar o volume persistente
+        requests: # Solicitacao do PV
+          storage: 1Gi # Capacidade do PV solicitado
